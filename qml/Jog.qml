@@ -295,7 +295,7 @@ Page {
             Layout.fillWidth: false
             onClicked: {
                 atcore.home(AtCore.X);
-                addlog("G28 X");
+                addlog("G28 X0");
             }
         }
 
@@ -312,7 +312,7 @@ Page {
             Layout.fillWidth: false
             onClicked: {
                 atcore.home(AtCore.Y);
-                addlog("G28 Y");
+                addlog("G28 Y0");
             }
 
         }
@@ -348,7 +348,7 @@ Page {
             Layout.fillWidth: false
             onClicked: {
                 atcore.home(AtCore.Z);
-                addlog("G28 Z");
+                addlog("G28 Z0");
             }
         }
     }
@@ -403,11 +403,13 @@ Page {
             font.weight: Font.ExtraBold
             onClicked: {
                 atcore.setIdleHold(0);
+                addlog("M84");
             }
         }
 
         ComboBox {
             id: comboBox
+            enabled: false
         }
 
     }

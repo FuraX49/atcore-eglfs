@@ -22,7 +22,7 @@ Page {
     function updateLabelPath(){
         var path = folderModel.folder.toString();
         path = path.replace(/^(file:\/{3})/,"");
-        label.text  = "/" + decodeURIComponent(path);
+        lbPath.text  = "/" + decodeURIComponent(path);
     }
 
     function currentFolder() {
@@ -37,7 +37,8 @@ Page {
     }
 
     function onItemClick(fileName) {
-        if(!isFolder(fileName)) {
+        fileSelected = "";
+        if(!isFolder(fileName) && fileName !== ".") {
             fileSelected = fileName;
             return;
         }
@@ -50,7 +51,6 @@ Page {
                 folderModel.folder += "/" + fileName
             }
         }
-
     }
 
 
@@ -84,16 +84,23 @@ Page {
                 anchors { fill: parent; margins: 2 }
                 Text {
                     id: name
-                    width: parent.width * 0.8
+                    width: parent.width * 0.60
                     font.bold: true
                     font.pixelSize: fontSize12
                     text: qsTr("Name")
                 }
                 Text {
+                    id: date
+                    font.bold: true
+                    font.pixelSize: fontSize12
+                    width: parent.width * 0.25
+                    text: qsTr("Date")
+                }
+                Text {
                     id: size
                     font.bold: true
                     font.pixelSize: fontSize12
-                    width: parent.width * 0.2
+                    width: parent.width * 0.15
                     text: qsTr("Size")
                 }
             }
@@ -105,7 +112,6 @@ Page {
         Item {
             id:  wrappper
             anchors { left: parent.left; right: parent.right }
-            //height: rowdelegate.implicitHeight + 4
             height : fontSize12 *2
 
             Row {
@@ -116,14 +122,21 @@ Page {
                     text: fileName
                     font.bold: false
                     font.pixelSize: fontSize12
-                    width: parent.width * 0.8
+                    width: parent.width * 0.6
+                }
+                Text {
+                    id : filemodified
+                    text: fileModified
+                    font.bold: false
+                    font.pixelSize: fontSize12
+                    width: parent.width * 0.25
                 }
                 Text {
                     id : filesize
                     text: Math.round(fileSize/1024) +"Kb"
                     font.bold: false
                     font.pixelSize: fontSize12
-                    width: parent.width * 0.2
+                    width: parent.width * 0.15
                 }
             }
             MouseArea {
@@ -170,9 +183,10 @@ Page {
 
     }
     Label {
-        id: label
+        id: lbPath
         height: fontSize14*2
-        text: "updateLabelPath"
+        text: ".."
+        font.italic: true
         font.pixelSize:fontSize14
         anchors.right: parent.right
         anchors.left: parent.left
@@ -202,7 +216,11 @@ Page {
                 checked: false
                 checkable: false
                 onClicked: {
-                    appWindow.fileSelected(label.text+"/"+fileSelected);
+                    if (  fileSelected !== "") {
+                        appWindow.fileSelected(lbPath.text+"/"+fileSelected);
+                    } else {
+                        appWindow.fileSelected("");
+                    }
                 }
             }
 

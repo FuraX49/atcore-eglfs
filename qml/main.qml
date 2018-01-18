@@ -294,9 +294,15 @@ Page {
 
     function fileSelected (fileName){
         if (atcore.state<AtCore.BUSY) {
-            printpage.printprogress.filename=fileName;
-            filetoprint=fileName;
-            tbPrint.enabled =true;
+            if (fileName!=="") {
+                printpage.printprogress.filename=fileName;
+                filetoprint=fileName;
+                tbPrint.enabled =true;
+            } else {
+                printpage.printprogress.filename="";
+                filetoprint="";
+                tbPrint.enabled =false;
+            }
         }
     }
 
