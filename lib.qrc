@@ -1,0 +1,23 @@
+<RCC>
+    <qresource prefix="/">
+        <file>lib/ParseMsg.js</file>
+        <file>lib/PrintProgress.qml</file>
+        <file>lib/HeaterControl.qml</file>
+        <file>lib/qmldir</file>
+        <file>lib/RateControl.qml</file>
+        <file>lib/ExtruderControl.qml</file>
+        <file>lib/FanControl.qml</file>
+        <file>lib/LibToolButton.qml</file>
+        <file>lib/atcore-share.js</file>
+        <file>lib/LibListRadio.qml</file>
+        <file>lib/LibBusyIndicator.qml</file>
+        <file>lib/graphtemp.cpp</file>
+        <file>lib/graphtemp.h</file>
+        <file>lib/PopDialog.qml</file>
+        <file>lib/HeaderButton.qml</file>
+        <file>lib/StepBox.qml</file>
+        <file>lib/HomeButton.qml</file>
+        <file>lib/JogButton.qml</file>
+        <file>lib/SwapButton.qml</file>
+    </qresource>
+</RCC>

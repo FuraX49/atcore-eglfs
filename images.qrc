@@ -1,0 +1,23 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/header/arrow_back.png</file>
+        <file>images/header/highlight_off.svg</file>
+        <file>images/header/more_vert.png</file>
+        <file>images/header/pause_circle_filled.svg</file>
+        <file>images/header/play_circle_filled.svg</file>
+        <file>images/header/stop.svg</file>
+        <file>images/lib/fan_128.png</file>
+        <file>images/lib/fandisable_128.png</file>
+        <file>images/lib/atcore.png</file>
+        <file>images/jog/home.svg</file>
+        <file>images/jog/triangle-down.svg</file>
+        <file>images/jog/triangle-left.svg</file>
+        <file>images/jog/triangle-right.svg</file>
+        <file>images/jog/triangle-up.svg</file>
+        <file>images/jog/right.png</file>
+        <file>images/jog/up.png</file>
+        <file>images/jog/left.png</file>
+        <file>images/jog/down.png</file>
+        <file>images/jog/home.png</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/main.qml</file>
+        <file>qml/Print.qml</file>
+        <file>qml/Jog.qml</file>
+        <file>qml/Files.qml</file>
+        <file>qml/LogTerm.qml</file>
+        <file>qml/ChartTemperatures.qml</file>
+        <file>qtquickcontrols2.conf</file>
+        <file>qml/Configs.qml</file>
+    </qresource>
+</RCC>

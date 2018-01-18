@@ -1,0 +1,18 @@
+module AtCore.Lib
+
+FanControl 1.0 FanControl.qml
+HeaderButton 1.0 HeaderButton.qml
+HeaterControl 1.0 HeaterControl.qml
+HomeButton 1.0 HomeButton.qml
+JogButton 1.0 JogButton.qml
+LibBusyIndicator 1.0 LibBusyIndicator.qml
+LibListRadio 1.0 LibListRadio.qml
+LibToolButton 1.0 LibToolButton.qml
+PopDialog 1.0 PopDialog.qml
+PrintProgress 1.0 PrintProgress.qml
+RateControl 1.0 RateControl.qml
+StepBox 1.0 StepBox.qml
+SwapButton 1.0 SwapButton.qml
+
+atcore-share 1.0 atcore-share.js
+ParseMsg 1.0 ParseMsg.js
