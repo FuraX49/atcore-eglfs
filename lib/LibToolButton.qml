@@ -6,6 +6,7 @@ import "../lib"
 
 
 ToolButton {
+    id : button
     property bool border: false
     font.pixelSize: fontSize12
     implicitHeight : 40
@@ -19,6 +20,7 @@ ToolButton {
         implicitHeight: 40
         radius: 4
         border.width: 2
+        color: button.pressed ? "lightgrey" : "white"
     }
 
 }

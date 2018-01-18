@@ -156,6 +156,7 @@ Page {
             font.weight: Font.ExtraBold
             onClicked: {
                 atcore.setIdleHold(0);
+                addlog("M84");
             }
         }
 

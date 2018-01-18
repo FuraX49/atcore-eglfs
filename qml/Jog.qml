@@ -10,7 +10,6 @@ Page {
     height: 400
     title: qsTr("Jog")
 
-    property real  step :  0.01;
     property string frXY : " F"+appWindow.feedRateXY.toString()
     property string frZ : " F"+appWindow.feedRateZ.toString()
 
@@ -29,6 +28,12 @@ Page {
         es_Z2.color  = EndStop.Z2 ? "white" : "red";
     }
 
+    function jogCmd(cmd) {
+        atcore.setRelativePosition();
+        atcore.pushCommand(cmd);
+        addlog(cmd);
+        atcore.setAbsolutePosition();
+    }
 
     Timer {
         interval: 1000; running: true; repeat: true
@@ -179,13 +184,8 @@ Page {
             Layout.fillHeight: true
             Layout.fillWidth: true
             onClicked: {
-                // TODO Correct atcore.move with real number !
-                //atcore.move(AtCore.Y,jog.step);
-                atcore.pushCommand("G1 Y+"+ step.jogsize + frXY );
-
+                jogCmd("G1 Y+"+ step.jogsize + frXY );
             }
-
-
         }
 
         JogButton {
@@ -202,8 +202,7 @@ Page {
             Layout.fillHeight: true
             Layout.fillWidth: true
             onClicked: {
-                // atcore.move(AtCore.Z, step.jogsize);
-                atcore.pushCommand("G1 Z+"+ step.jogsize + frZ)
+                jogCmd("G1 Z+"+ step.jogsize + frZ);
             }
         }
 
@@ -222,8 +221,7 @@ Page {
             Layout.fillHeight: true
             Layout.fillWidth: true
             onClicked: {
-                //atcore.move(AtCore.X,-jog.step);
-                atcore.pushCommand("G1 X-"+ step.jogsize+ frXY)
+                jogCmd("G1 X-"+ step.jogsize+ frXY);
             }
         }
 
@@ -241,8 +239,7 @@ Page {
             Layout.fillHeight: true
             Layout.fillWidth: true
             onClicked: {
-                //atcore.move(AtCore.X,jog.step);
-                atcore.pushCommand("G1 X+"+ step.jogsize + frXY )
+                jogCmd("G1 X+"+ step.jogsize + frXY );
             }
         }
 
@@ -262,8 +259,7 @@ Page {
             Layout.fillHeight: true
             Layout.fillWidth: true
             onClicked: {
-                //atcore.move(AtCore.Y,-jog.step);
-                atcore.pushCommand("G1 Y-"+ step.jogsize +frXY)
+                jogCmd("G1 Y-"+ step.jogsize +frXY);
             }
         }
 
@@ -281,8 +277,7 @@ Page {
             Layout.fillHeight: true
             Layout.fillWidth: true
             onClicked: {
-                //atcore.move(AtCore.Z,-jog.step);
-                atcore.pushCommand("G1 Z-"+step.jogsize + frZ)
+                jogCmd("G1 Z-"+step.jogsize + frZ);
             }
         }
 
@@ -299,7 +294,8 @@ Page {
             Layout.fillHeight: true
             Layout.fillWidth: false
             onClicked: {
-                atcore.home(AtCore.X)
+                atcore.home(AtCore.X);
+                addlog("G28 X");
             }
         }
 
@@ -315,7 +311,8 @@ Page {
             Layout.fillHeight: true
             Layout.fillWidth: false
             onClicked: {
-                atcore.home(AtCore.Y)
+                atcore.home(AtCore.Y);
+                addlog("G28 Y");
             }
 
         }
@@ -329,10 +326,11 @@ Page {
             Layout.fillHeight: true
             Layout.fillWidth: false
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-            Layout.column : 5
-            Layout.row : 2
+            Layout.column : 4
+            Layout.row :  1
             onClicked: {
                 atcore.home();
+                addlog("G28");
             }
         }
 
@@ -344,12 +342,13 @@ Page {
             font.wordSpacing: 1
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             autoExclusive: true
-            Layout.column : 4
-            Layout.row : 1
+            Layout.column : 5
+            Layout.row : 2
             Layout.fillHeight: true
             Layout.fillWidth: false
             onClicked: {
-                atcore.home(AtCore.Z)
+                atcore.home(AtCore.Z);
+                addlog("G28 Z");
             }
         }
     }
@@ -376,23 +375,10 @@ Page {
             Layout.fillWidth: true
         }
 
-        SwapButton {
-            textUp : "Absolute"
-            textDown : "Relative"
-            font.pixelSize: fontSize12
-            font.bold: true
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-            onCheckedChanged: {
-                if (checked) {
-                   atcore.setRelativePosition();
-                } else {
-                    atcore.setAbsolutePosition();
-                }
-            }
-        }
 
         SwapButton {
+             id : sbMetImp
+            visible: false
             textUp : "Metric"
             textDown : "Imperial"
             font.pixelSize: fontSize12
@@ -418,6 +404,10 @@ Page {
             onClicked: {
                 atcore.setIdleHold(0);
             }
+        }
+
+        ComboBox {
+            id: comboBox
         }
 
     }
