@@ -376,24 +376,6 @@ Page {
         }
 
 
-        SwapButton {
-             id : sbMetImp
-            visible: false
-            textUp : "Metric"
-            textDown : "Imperial"
-            font.pixelSize: fontSize12
-            font.bold: true
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-            onCheckedChanged: {
-                if (checked) {
-                    atcore.setUnits(AtCore.IMPERIAL);
-                } else {
-                    atcore.setUnits(AtCore.METRIC) ;
-                }
-            }
-        }
-
         LibToolButton {
             id : tbMotorOff
             text : "Motor OFF"
@@ -407,11 +389,31 @@ Page {
             }
         }
 
-        ComboBox {
-            id: comboBox
-            enabled: false
+        LibToolButton {
+            id : tbDock
+            text : "Dock"
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+            font.pixelSize: fontSize14
+            font.weight: Font.ExtraBold
+            onClicked: {
+                atcore.pushCommand("G31");
+                addlog("G31");
+            }
         }
 
+        LibToolButton {
+            id : tbUnDock
+            text : "UnDock"
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+            font.pixelSize: fontSize14
+            font.weight: Font.ExtraBold
+            onClicked: {
+                atcore.pushCommand("G32");
+                addlog("G32");
+            }
+        }
     }
 
     function init(){
