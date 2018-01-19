@@ -40,6 +40,14 @@ Page {
         }
     }
 
+    function updateHeater(TempHeaters) {
+        if ((heatBed.visible) && (TempHeaters.BedTarget>0 )) heatBed.heatAt(true,TempHeaters.BedTarget);
+        if ((heatE0.visible) && (TempHeaters.E0Target>0 )) heatE0.heatAt(true,TempHeaters.E0Target);
+        if ((heatE1.visible) && (TempHeaters.E1Target>0 )) heatE1.heatAt(true,TempHeaters.E1Target);
+        if ((heatE2.visible) && (TempHeaters.E2Target>0 )) heatE2.heatAt(true,TempHeaters.E2Target);
+        if ((heatE3.visible) && (TempHeaters.E3Target>0 )) heatE3.heatAt(true,TempHeaters.E3Target);
+
+    }
 
     GridLayout {
         id: gridLayout
@@ -107,9 +115,9 @@ Page {
             Layout.fillWidth: true
             autoExclusive: false
             checkable: true
-            Layout.row : 0
+            Layout.row : 2
             Layout.rowSpan: 1
-            Layout.column : 7
+            Layout.column : 0
             Layout.columnSpan: 1
             onClicked: {
                 if ( btnPLA.checked ) btnPLA.checked = false;
@@ -128,9 +136,9 @@ Page {
             Layout.fillWidth: true
             autoExclusive: false
             checkable: true
-            Layout.row : 1
+            Layout.row : 2
             Layout.rowSpan: 1
-            Layout.column : 7
+            Layout.column : 1
             Layout.columnSpan: 1
             onClicked: {
                 if ( btnABS.checked ) btnABS.checked = false;
@@ -144,19 +152,39 @@ Page {
 
 
         LibToolButton {
-            id : tbMotorOff
-            text : "Motor OFF"
+            id: btnRest
+            text: qsTr("Reset")
             Layout.fillHeight: true
             Layout.fillWidth: true
+            autoExclusive: false
+            checkable: true
             Layout.row : 2
             Layout.rowSpan: 1
-            Layout.column : 0
+            Layout.column : 3
+            Layout.columnSpan: 1
+            onClicked: {
+                atcore.pushCommand("M562");
+                terminal.appmsg("M562");
+            }
+        }
+
+
+        LibToolButton {
+            id : tbMotorOff
+            text : "Motors\nOFF"
+            border: false
+            font.wordSpacing: 1
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+            Layout.row : 0
+            Layout.rowSpan: 1
+            Layout.column : 7
             Layout.columnSpan: 1
             font.pixelSize: fontSize14
             font.weight: Font.ExtraBold
             onClicked: {
                 atcore.setIdleHold(0);
-                addlog("M84");
+                terminal.appmsg("M84");
             }
         }
 
@@ -296,11 +324,17 @@ Page {
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             onExtrude: {
                 atcore.pushCommand("T"+tools);
+                atcore.pushCommand("M83");
                 atcore.pushCommand("G1 E+"+ length +frE)
+                atcore.pushCommand("M82");
+                terminal.appmsg("G1 T"+tools+" E+"+ length +frE);
             }
             onRetract: {
                 atcore.pushCommand("T"+tools);
+                atcore.pushCommand("M83");
                 atcore.pushCommand("G1 E-"+ length +frE)
+                atcore.pushCommand("M82");
+                terminal.appmsg("G1 T"+tools+" E-"+ length +frE);
             }
         }
     }
@@ -312,7 +346,6 @@ Page {
          if (appWindow.extcount>3 ) {heatE3.visible=true; } else {heatE3.visible=false; }
          ext.majNbToosl(appWindow.extcount);
          fan.majNbFans(appWindow.fancount);
-         // TODO update Ext (on/off & T°) on first M105 ?
       }
 
     Component.onCompleted: {

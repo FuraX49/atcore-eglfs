@@ -31,7 +31,7 @@ Page {
     function jogCmd(cmd) {
         atcore.setRelativePosition();
         atcore.pushCommand(cmd);
-        addlog(cmd);
+        terminal.appmsg(cmd);
         atcore.setAbsolutePosition();
     }
 
@@ -295,7 +295,7 @@ Page {
             Layout.fillWidth: false
             onClicked: {
                 atcore.home(AtCore.X);
-                addlog("G28 X0");
+                terminal.appmsg("G28 X0");
             }
         }
 
@@ -312,7 +312,7 @@ Page {
             Layout.fillWidth: false
             onClicked: {
                 atcore.home(AtCore.Y);
-                addlog("G28 Y0");
+                terminal.appmsg("G28 Y0");
             }
 
         }
@@ -330,7 +330,7 @@ Page {
             Layout.row :  1
             onClicked: {
                 atcore.home();
-                addlog("G28");
+                terminal.appmsg("G28");
             }
         }
 
@@ -348,7 +348,7 @@ Page {
             Layout.fillWidth: false
             onClicked: {
                 atcore.home(AtCore.Z);
-                addlog("G28 Z0");
+                terminal.appmsg("G28 Z0");
             }
         }
     }
@@ -385,7 +385,7 @@ Page {
             font.weight: Font.ExtraBold
             onClicked: {
                 atcore.setIdleHold(0);
-                addlog("M84");
+                terminal.appmsg("M84");
             }
         }
 
@@ -398,7 +398,7 @@ Page {
             font.weight: Font.ExtraBold
             onClicked: {
                 atcore.pushCommand("G31");
-                addlog("G31");
+                terminal.appmsg("G31");
             }
         }
 
@@ -411,7 +411,7 @@ Page {
             font.weight: Font.ExtraBold
             onClicked: {
                 atcore.pushCommand("G32");
-                addlog("G32");
+                terminal.appmsg("G32");
             }
         }
     }

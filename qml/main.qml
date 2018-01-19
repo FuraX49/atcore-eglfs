@@ -234,6 +234,8 @@ Page {
             //  console.log(smsg);
 
             if (PM.getTemperatures(smsg)) {
+                printpage.updateHeater(PM.TempHeaters);
+
                 tempchart.addTemps(0,PM.TempHeaters.E0,PM.TempHeaters.E0Target);
                 if (asbed) tempchart.addTemps(1,PM.TempHeaters.Bed,PM.TempHeaters.BedTarget);
                 if (extcount>1) tempchart.addTemps(2,PM.TempHeaters.E1,PM.TempHeaters.E1Target);
@@ -247,30 +249,18 @@ Page {
 
             if (PM.getCoord(smsg)) {
                 jog.updatePos(PM.AxesPos);
+                if (logok) {
+                    terminal.appmsg(smsg);
+                }
                 return true;
             }
-            /* TODO RegExp pour EndStop
-            if (PM.getES(msg)) {
+
+
+            if (PM.getES(smsg)) {
                 jog.updateES(PM.EndStop);
-            }*/
-
-            if (PM.FileList) {
-                if (PM.getEndFile(smsg))  {
-                    busy.anim(false);
-                    return true;
-                } else {
-                    if (PM.getFileDesc(smsg)) {
-                        if (PM.isGcodeFile()) {
-                            files.addFileDesc(PM.FileDesc);
-                        }
-                        return true;
-                    }
+                if (logok) {
+                    terminal.appmsg(smsg);
                 }
-            }
-
-            if (PM.getBeginFile(smsg)) {
-                busy.anim(true);
-                files.clearFileList();
                 return true;
             }
 
@@ -532,7 +522,7 @@ Page {
                     }
 
                     // TODO test bool firmwarePluginLoaded()
-                    addlog("ArCore Version :" + atcore.version);
+                    terminal.appmsg("ArCore Version :" + atcore.version);
                     spyAtCore.wait(10000);
                     if (spyAtCore.count<2) {
                         popdialog.show("Configuration Error","Time init device too long, review  /etc/thing-printer/atcore-eglfs.conf")
@@ -555,7 +545,9 @@ Page {
         jog.init();
         configs.init();
         if (atcore.state===AtCore.IDLE) {
-            atcore.pushCommand("M110");
+            atcore.pushCommand("M105");
+            atcore.pushCommand("M114");
+            atcore.pushCommand("M119");
         }
 
         busy.anim(false);

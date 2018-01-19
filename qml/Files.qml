@@ -168,7 +168,7 @@ Page {
         anchors.bottomMargin: 10
         anchors.top: parent.top
         anchors.right: parent.right
-        anchors.bottom: label.top
+        anchors.bottom: lbPath.top
         anchors.left: parent.left
         anchors.topMargin: 10
         anchors.margins: 10
