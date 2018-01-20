@@ -42,7 +42,7 @@ Page {
     }
 
     // ************ SETTINGS ***************************************
-    property string acdevice : ""
+    property string acdevice : "testing_1"
     property string acfirmware :  ""
     property string acspeed :  "115200"
     property bool  logok :  false
@@ -58,6 +58,7 @@ Page {
     property int  feedRateZ :  1000
     property int  feedRateE :  200
     property string  pathmodels :  "file:///usr/share/models"
+    property int extProt: extPLA-20
 
 
 
@@ -78,6 +79,7 @@ Page {
         settings.feedRateZ =  appWindow.feedRateZ
         settings.feedRateE =  appWindow.feedRateE
         settings.pathmodels =  appWindow.pathmodels
+        settings.extProt = appWindow.extProt
     }
 
     Settings {
@@ -100,6 +102,7 @@ Page {
         property alias feedRateZ :  appWindow.feedRateZ
         property alias feedRateE :  appWindow.feedRateE
         property alias pathmodels: appWindow.pathmodels
+        property alias extprot: appWindow.extProt
 
         Component.onDestruction:  saveSetting();
     }

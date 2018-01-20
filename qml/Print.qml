@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.3
 import org.kde.atcore 1.0
 import "../lib"
 import "../lib/atcore-share.js" as AS
-
+import "../lib/ParseMsg.js" as PM
 
 Page {
     id: printpage
@@ -323,30 +323,38 @@ Page {
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             onExtrude: {
-                atcore.pushCommand("T"+tools);
-                atcore.pushCommand("M83");
-                atcore.pushCommand("G1 E+"+ length +frE)
-                atcore.pushCommand("M82");
-                terminal.appmsg("G1 T"+tools+" E+"+ length +frE);
+                if (PM.getExtTemp(tools) > appWindow.extProt ) {
+                    atcore.pushCommand("T"+tools);
+                    atcore.pushCommand("M83");
+                    atcore.pushCommand("G1 E+"+ length +frE)
+                    atcore.pushCommand("M82");
+                    terminal.appmsg("G1 T"+tools+" E+"+ length +frE);
+                } else {
+                    terminal.appmsg("Extruder protection at "+appWindow.extProt+"°C") ;
+                }
             }
             onRetract: {
-                atcore.pushCommand("T"+tools);
-                atcore.pushCommand("M83");
-                atcore.pushCommand("G1 E-"+ length +frE)
-                atcore.pushCommand("M82");
-                terminal.appmsg("G1 T"+tools+" E-"+ length +frE);
+                if (PM.getExtTemp(tools) > appWindow.extProt ) {
+                    atcore.pushCommand("T"+tools);
+                    atcore.pushCommand("M83");
+                    atcore.pushCommand("G1 E-"+ length +frE)
+                    atcore.pushCommand("M82");
+                    terminal.appmsg("G1 T"+tools+" E-"+ length +frE);
+                } else {
+                    terminal.appmsg("Extruder protection at "+appWindow.extProt+"°C") ;
+                }
             }
         }
     }
     
-     function init(){
-         if (appWindow.asbed )     {heatBed.visible=true; } else {heatBed.visible=false;}
-         if (appWindow.extcount>1 ) {heatE1.visible=true; } else {heatE1.visible=false; }
-         if (appWindow.extcount>2 ) {heatE2.visible=true; } else {heatE2.visible=false; }
-         if (appWindow.extcount>3 ) {heatE3.visible=true; } else {heatE3.visible=false; }
-         ext.majNbToosl(appWindow.extcount);
-         fan.majNbFans(appWindow.fancount);
-      }
+    function init(){
+        if (appWindow.asbed )     {heatBed.visible=true; } else {heatBed.visible=false;}
+        if (appWindow.extcount>1 ) {heatE1.visible=true; } else {heatE1.visible=false; }
+        if (appWindow.extcount>2 ) {heatE2.visible=true; } else {heatE2.visible=false; }
+        if (appWindow.extcount>3 ) {heatE3.visible=true; } else {heatE3.visible=false; }
+        ext.majNbToosl(appWindow.extcount);
+        fan.majNbFans(appWindow.fancount);
+    }
 
     Component.onCompleted: {
 
