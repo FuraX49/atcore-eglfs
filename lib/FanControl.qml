@@ -1,8 +1,6 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
-import "../lib"
-//import AtCore.Lib 1.0
 
 
 Rectangle {
@@ -11,36 +9,36 @@ Rectangle {
     border.width: 2
     implicitHeight: 50
     implicitWidth: 200
-    property string title: "Fan"
+    property string title: "Fan\n0"
     property real maxSpeed : 100
     property real minSpeed: 0
     property real currentSpeed: 100
     property real stepsize : 5
-    
-    signal speedchanged (bool onoff,real  speed)
-    
+
+    signal changedspeedfan (int fan,bool onoff,real  speed)
+
+    property var speedfan  : [100,100,100,100,100]
+    property var offan  : [false,false,false,false,false]
+    property int fanindex  : 0
+
     function majNbFans(nb) {
-        for (var x = 1; x <nb; x++) {
-           lmFans.append({"fan":"F"+x.toString()});
-        }
+        while (speedfan.length> nb) {speedfan.pop();}
+        while (speedfan.length< nb) {speedfan.push(100);}
+        speedfan.length=nb;
     }
 
-    GridLayout {
-        id: gridLayout
+    RowLayout {
+        id: row
+        spacing: 0
         anchors.fill: parent
-        rows: 1
-        columns: 6
+
 
         Slider {
             id: slider
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             clip: false
-            Layout.column : 0
-            Layout.row: 0
-            Layout.rowSpan: 1
-            Layout.columnSpan: 4
             Layout.fillHeight: true
             Layout.fillWidth: true
+            Layout.maximumWidth: parent.width * 0.6
             Layout.margins: 2
             snapMode: Slider.SnapOnRelease
             orientation: Qt.Horizontal
@@ -55,54 +53,77 @@ Rectangle {
                 font.pixelSize: fontSize10
                 width : parent.width
                 height: parent.height
-                
             }
-            
+            onValueChanged: {
+                speedfan[fanindex]=value;
+                if (offan[fanindex]) {
+                    changedspeedfan(fanindex,true,speedfan[fanindex]);
+                }
+            }
         }
-        
-        ComboBox {
-            id: cbFans
+
+        Button {
+            id: precFan
+            Layout.margins: 2
+            Layout.rightMargin: 0
             Layout.fillHeight: true
             Layout.fillWidth: true
-            Layout.maximumHeight:  parent.height
-            Layout.maximumWidth: parent.width / parent.columns
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-            font.weight: Font.Medium
-            font.pixelSize: fontSize10
-            Layout.row: 0
-            Layout.column : 4
-            Layout.columnSpan: 1
-            Layout.rowSpan: 1
-            Layout.margins: 2
-            textRole: "fan"
-            model: ListModel {
-                id: lmFans
-                ListElement { fan: "F0" }
+            Layout.maximumWidth: parent.width * 0.1
+            text: "-"
+            font.bold: true
+            font.pixelSize: fontSize14
+            enabled: (fanindex>0)
+            onClicked: {
+                 if (fanindex>0) {
+                     fanindex--;
+                     toolButton.text="Fan\n"+fanindex.toString();
+                     slider.value=speedfan[fanindex];
+                     toolButton.checked= offan[fanindex];
+                 }
             }
         }
 
         Button {
             id: toolButton
             text: root.title
-            Layout.rowSpan: 1
-            Layout.row: 0
-            Layout.column : 5
-            Layout.columnSpan: 1
-            Layout.margins: 2
             checkable: true
             checked: false
             font.pixelSize: fontSize12
+            Layout.margins: 2
+            Layout.leftMargin: 0
+            Layout.rightMargin: 0
             Layout.fillHeight: true
             Layout.fillWidth: true
-            Layout.maximumHeight:  parent.height
-            Layout.maximumWidth: parent.width / parent.columns
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-            //iconsource : "qrc:/images/lib/fan_128.png"
+            Layout.maximumWidth: parent.width * 0.2
             onClicked: {
-                atcore.setFanSpeed(slider.value,cbFans.currentIndex);
+                offan[fanindex]=checked;
+                changedspeedfan(fanindex,checked,speedfan[fanindex]);
+                //atcore.setFanSpeed(slider.value,cbFans.currentIndex);
             }
         }
 
-        
+        Button {
+            id: nextFan
+            Layout.leftMargin: 0
+            Layout.margins: 2
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+            Layout.maximumWidth: parent.width * 0.1
+            text: "+"
+            font.bold: true
+            font.pixelSize: fontSize14
+            enabled: (fanindex<speedfan.length-1)
+            onClicked: {
+                if (fanindex<speedfan.length-1) {
+                    fanindex++;
+                    toolButton.text="Fan\n"+fanindex.toString();
+                    slider.value=speedfan[fanindex];
+                    toolButton.checked= offan[fanindex];
+                }
+            }
+
+        }
+
+
     }
 }

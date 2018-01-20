@@ -188,8 +188,6 @@ Page {
             }
         }
 
-
-
         FanControl {
             id: fan
             Layout.fillHeight: true
@@ -199,6 +197,16 @@ Page {
             Layout.rowSpan: 1
             Layout.column : 4
             Layout.columnSpan: 4
+            onChangedspeedfan: {
+                console.log ("Fan " + fan +" onoff "+onoff +" speed " + speed);
+                if (onoff) {
+                    atcore.pushCommand("M106 P"+fan.toString()+" S"+speed.toString() );
+                    terminal.appmsg("M106 P"+fan.toString()+" S"+speed.toString());
+                } else {
+                    atcore.pushCommand("M107 P"+fan.toString() );
+                    terminal.appmsg("M107 P"+fan.toString());
+                }
+            }
         }
 
         
