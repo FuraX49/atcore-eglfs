@@ -44,19 +44,19 @@ Rectangle {
         }
 
         RoundButton {
-            id: roundButton
-            text: "+"
+            id: roundButton1
+            text: "\u2191 -"
             spacing: 0
-            padding: 0
             font.weight: Font.ExtraBold
+            padding: 0
             font.bold: true
-            font.pixelSize:  fontSize16
+            font.pixelSize: fontSize16
             Layout.maximumHeight: parent.height / 4
             Layout.fillHeight: true
             Layout.fillWidth: true
             Layout.margins: 4
             onClicked: {
-                root.extrude(cbTool.currentIndex.toString(),sbLength.items[sbLength.value]);
+                root.retract(cbTool.currentIndex.toString(),sbLength.items[sbLength.value]);
             }
         }
 
@@ -79,21 +79,23 @@ Rectangle {
         }
 
         RoundButton {
-            id: roundButton1
-            text: "-"
+            id: roundButton
+            text: "\u2193 +"
             spacing: 0
-            font.weight: Font.ExtraBold
             padding: 0
+            font.weight: Font.ExtraBold
             font.bold: true
-            font.pixelSize: fontSize16
+            font.pixelSize:  fontSize16
             Layout.maximumHeight: parent.height / 4
             Layout.fillHeight: true
             Layout.fillWidth: true
             Layout.margins: 4
             onClicked: {
-                root.retract(cbTool.currentIndex.toString(),sbLength.items[sbLength.value]);
+                root.extrude(cbTool.currentIndex.toString(),sbLength.items[sbLength.value]);
             }
         }
+
+
 
     }
 }

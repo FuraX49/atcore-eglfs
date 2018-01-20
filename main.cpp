@@ -11,7 +11,7 @@
 Q_DECL_EXPORT int main(int argc, char *argv[])
 {
 
-    qputenv("XDG_CONFIG_HOME", QByteArray("/etc/thing-printer"));
+    qputenv("XDG_CONFIG_HOME", QByteArray("/etc"));
     qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard"));
 
     QApplication app(argc, argv);

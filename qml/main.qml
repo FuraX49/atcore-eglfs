@@ -79,7 +79,7 @@ Page {
         settings.feedRateZ =  appWindow.feedRateZ
         settings.feedRateE =  appWindow.feedRateE
         settings.pathmodels =  appWindow.pathmodels
-        settings.extProt = appWindow.extProt
+        settings.extprot = appWindow.extProt
     }
 
     Settings {
